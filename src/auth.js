@@ -1,9 +1,9 @@
+// auth.js
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma"
 import { getUserById } from "@/lib/data"
 import authConfig from "@/auth.config"
-
 
 export const options = {
     session: { strategy: 'jwt' },
@@ -15,11 +15,14 @@ export const options = {
     },
     callbacks: {
         async session({ session, token }) {
-            // console.log(session, user);
-            session.user.role = token?.role
-            return session
+            if (token && token.sub) {
+                const user = await getUserById(token.sub);
+                if (user) {
+                    session.user.role = token.role;
+                }
+            }
+            return session;
         },
-
         async jwt({ token }) {
             if (!token.sub) return token;
 
@@ -32,11 +35,9 @@ export const options = {
     },
 }
 
-
-
 export const {
     handlers: { GET, POST },
     auth,
     signIn,
     signOut
-} = NextAuth({ ...options, ...authConfig })
+} = NextAuth({ ...options, ...authConfig });

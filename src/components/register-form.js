@@ -1,26 +1,36 @@
-'use client'
+'use client'; // Marcar el componente como cliente
+
 import { useState } from 'react';
-import { register } from '@/lib/actions'
+import { register } from '@/lib/actions';
 import { redirect } from 'next/navigation';
 import Button from '@/components/button-form';
 
-
 function RegisterForm() {
-    const [resultado, setResultado] = useState("")
-    const [tipo, setTipo] = useState("")
+    const [resultado, setResultado] = useState("");
+    const [tipo, setTipo] = useState("");
 
-    async function wrapper(data) {
-        const message = await register(data) // Server action
+    async function wrapper(event) {
+        event.preventDefault(); // Evitar el envío del formulario por defecto
+
+        const formData = new FormData(event.target);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            password: formData.get('password')
+        };
+
+        const message = await register(data); // Enviar datos al servidor
         if (message.success) {
-            setTipo('success')
-            // setResultado(message.success);
-            redirect('/auth/login')
+            setTipo('success');
+            setResultado(message.success);
+            // Redirige al usuario al inicio de sesión después de un registro exitoso
+            redirect('/auth/login');
         } else {
-            setTipo('error')
+            setTipo('error');
             setResultado(message.error);
         }
-
     }
+
     return (
         <form onSubmit={wrapper} className='credentials'>
             <div>
@@ -38,7 +48,6 @@ function RegisterForm() {
             <Button title="Crear cuenta" />
         </form>
     );
-};
+}
 
 export default RegisterForm;
-

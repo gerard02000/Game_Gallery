@@ -39,17 +39,16 @@ model Account {
 
 model User {
   id            String    @id @default(cuid())
-  nombre        String
+  name        String
   email         String    @unique
-  juegos        Juego[]
+  image        String?
+  emailVerified  Boolean ? @default(false)
   accounts      Account[] // Agregamos esta línea para representar la relación inversa
+  victorias  Int?
+  derrotas   Int?
+  empates    Int?
+  password    String?
+  role          String?   @default("USER")  // o  ADMIN
 }
 
-model Juego {
-  id         Int      @id @default(autoincrement())
-  nombre     String
-  victorias  Int
-  derrotas   Int
-  usuario    User?    @relation(fields: [usuarioId], references: [id])
-  usuarioId  String?
-}
+

@@ -6,11 +6,11 @@ const HomePage = () => {
             <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
                 <div className="mx-auto max-w-lg text-center">
                     {/* Título de la sección */}
-                    <h2 className="text-3xl font-bold sm:text-4xl">Kickstart your marketing</h2>
+                    <h2 className="text-3xl font-bold sm:text-4xl">Gamer Gallerey</h2>
 
                     {/* Descripción de la sección */}
                     <p className="mt-4 text-gray-300">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur aliquam doloribus nesciunt eos fugiat. Vitae aperiam fugit consequuntur saepe laborum.
+                        ¡Bienvenido a nuestra galería de videojuegos retro clásicos! Aquí encontrarás una colección de los juegos más icónicos de la historia, desde los días de los arcades hasta las consolas de los años 80 y 90.
                     </p>
                 </div>
 
@@ -19,7 +19,7 @@ const HomePage = () => {
                     {/* Elemento de marketing 1 */}
                     <a
                         className="block rounded-xl border border-gray-800 p-8 shadow-xl transition hover:border-pink-500/10 hover:shadow-pink-500/10"
-                        href="#"
+                        href="/juego"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,8 @@ const HomePage = () => {
                             />
                         </svg>
 
-                        <h2 className="mt-4 text-xl font-bold text-white">Digital campaigns</h2>
+
+                        <h2 className="mt-4 text-xl font-bold text-white">Juegos Clasicos</h2>
 
                         <p className="mt-1 text-sm text-gray-300">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex ut quo possimus adipisci distinctio alias voluptatum blanditiis laudantium.
@@ -64,7 +65,7 @@ const HomePage = () => {
                         </svg>
 
                         {/* Título del elemento */}
-                        <h2 className="mt-4 text-xl font-bold text-white">Digital campaigns</h2>
+                        <h2 className="mt-4 text-xl font-bold text-white">Proximamente Juegos Online</h2>
 
                         {/* Descripción del elemento */}
                         <p className="mt-1 text-sm text-gray-300">
@@ -77,7 +78,7 @@ const HomePage = () => {
 
                 {/* Botón de llamado a la acción */}
                 <div className="mt-12 text-center">
-                    <a href="#" className="inline-block rounded bg-pink-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-pink-700 focus:outline-none focus:ring focus:ring-yellow-400">
+                    <a href="/auth/login" className="inline-block rounded bg-pink-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-pink-700 focus:outline-none focus:ring focus:ring-yellow-400">
                         Get Started Today
                     </a>
                 </div>
