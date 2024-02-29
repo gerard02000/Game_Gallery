@@ -1,5 +1,5 @@
 import React from 'react';
-import { loginGoogle, loginGithub } from "@/lib/actions"; // Importa las funciones de inicio de sesión de Google y Github
+import { loginGoogle, loginGithub, loginTwitch, loginDiscord } from "@/lib/actions"; // Importa las funciones de inicio de sesión de Google y Github
 
 function OAuthForm() {
 
@@ -18,9 +18,15 @@ function OAuthForm() {
             Continue with Google
           </button>
 
-          <button className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
-            <img src="https://www.svgrepo.com/show/448234/linkedin.svg" alt="LinkedIn" className="h-[18px] w-[18px]" />
-            Continue with LinkedIn
+          <button formAction={loginTwitch} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+            <img src="https://simpleicons.org/icons/twitch.svg" alt="Twitch" className="h-[18px] w-[18px]" />
+
+            Continue with Twitch
+          </button>
+
+          <button formAction={loginDiscord} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded border border-slate-300 bg-white p-2 text-sm font-medium text-black outline-none focus:ring-2 focus:ring-[#333] focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-60">
+            <img src="https://simpleicons.org/icons/discord.svg" alt="Discord" className="h-[18px] w-[18px]" />
+            Continue with Discord
           </button>
         </div>
       </form>

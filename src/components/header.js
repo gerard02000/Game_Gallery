@@ -26,7 +26,6 @@ async function Header() {
                                 <Link href="/dashboard" className="text-white hover:text-gray-300 ml-4">Dashboard</Link>
                                 <Link href="/juego" className="text-white hover:text-gray-300 ml-4" >Juegos</Link> {/* Ajustando margen izquierdo */}
                                 <Link href="/about" className="text-white hover:text-gray-300 ml-4">About</Link> {/* Ajustando margen izquierdo */}
-                                <Link href="/admin" className="text-white hover:text-gray-300 ml-4" >Panel de admin</Link>
                             </div>
                             <div className="flex items-center space-x-4">
                                 {session ? (
@@ -48,11 +47,10 @@ async function Header() {
                         <div className="hidden lg:flex lg:items-center lg:justify-between lg:space-x-10 flex-grow w-full">
                             <div className="flex justify-center items-center space-x-4 lg:space-x-10 w-full"> {/* Alineación centrada */}
                                 <Link href="/" className="text-white hover:text-gray-300">Inicio</Link>
-                                {session?.user?.role === 'ADMIN' && <Link href="/admin" className="text-white hover:text-gray-300">Admin panel</Link>}
+                                {session?.user?.role === 'ADMIN' && <Link href="/admin" className="text-white hover:text-gray-300"> Admin panel</Link>}
                                 <Link href="/dashboard" className="text-white hover:text-gray-300">Dashboard</Link>
                                 <Link href="/juego" className="text-white hover:text-gray-300 ml-4" >Juegos</Link> {/* Ajustando margen izquierdo */}
                                 <Link href="/about" className="text-white hover:text-gray-300">About</Link>
-                                <Link href="/admin" className="text-white hover:text-gray-300 ml-4" >Panel de admin</Link>
                             </div>
 
                             <div className="flex items-center space-x-4">

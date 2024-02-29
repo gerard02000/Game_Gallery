@@ -3,20 +3,20 @@
 
 
 //prisma/schema.prisma
- datasource db {
-   provider  = "postgresql"
-   url  	    = env("DATABASE_URL")
-   directUrl = env("DIRECT_URL")
- }
+// datasource db {
+//   provider  = "postgresql"
+//   url  	    = env("DATABASE_URL")
+//   directUrl = env("DIRECT_URL")
+ //}
 
 generator client {
   provider = "prisma-client-js"
 }
 
-//datasource db {
-// provider  = "mysql"
-// url  	    = env("DATABASE_URL")
-//}
+datasource db {
+ provider  = "mysql"
+ url  	    = env("DATABASE_URL")
+}
 
 model Account {
   id                 String  @id @default(cuid())
@@ -48,7 +48,24 @@ model User {
   derrotas   Int?
   empates    Int?
   password    String?
-  role          String?   @default("USER")  // o  ADMIN
+  role          String?   @default("USER")  // o  ADMIN 
+   partidas      Partida[]
 }
 
+model Partida {
+  id          String    @id @default(cuid())
+  victorias  Int?
+  derrotas   Int?
+  empates    Int?
+  userId    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    juegoId    String
+  juego      Juego @relation(fields: [juegoId], references: [id], onDelete: Cascade)
+}
 
+model Juego {
+  id          String    @id @default(cuid())
+  name        String
+   partidas      Partida[]
+
+}

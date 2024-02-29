@@ -2,7 +2,7 @@
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
 import { signIn, signOut } from '@/auth';
-import { getUserByEmail } from '@/lib/data';
+import { getUserByEmail, getUserById } from '@/lib/data';
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -91,8 +91,8 @@ export async function login(formData) {
 export async function loginGoogle() {
     try {
         await signIn('google', { redirectTo: '/dashboard' })
-
     } catch (error) {
+        console.log(error);
         throw error
     }
 }
@@ -106,6 +106,30 @@ export async function loginGithub() {
         throw error
     }
 }
+
+// LOGIN Discord
+export async function loginDiscord() {
+    try {
+        await signIn('discord', { redirectTo: '/dashboard' })
+
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+// LOGIN Twitch
+export async function loginTwitch() {
+    try {
+        await signIn('twitch', { redirectTo: '/dashboard' })
+
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}
+
+
 
 
 // LOGOUT
@@ -124,33 +148,39 @@ export async function logout() {
 
 
 
-// Función para actualizar los juegos del usuario
-export const updateJuego = async (userId, fieldToUpdate) => {
+
+
+export const updateJuegoWithResult = async (userId, result) => {
     try {
-        let updatedUserData;
-
-        // Verifica qué campo se va a actualizar
-        if (fieldToUpdate === 'victorias') {
-            updatedUserData = { victorias: { increment: 1 } };
-        } else if (fieldToUpdate === 'derrotas') {
-            updatedUserData = { derrotas: { increment: 1 } };
-        } else if (fieldToUpdate === 'empates') {
-            updatedUserData = { empates: { increment: 1 } };
-        } else {
-            throw new Error('Campo no válido');
-        }
-
-        // Actualiza los juegos del usuario utilizando Prisma
-        const updatedUser = await prisma.user.update({
-            where: { id: userId },
-            data: updatedUserData,
+        // Buscar al usuario por su ID
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
         });
 
-        console.log(`Se actualizó el campo ${fieldToUpdate} del juego del usuario ${userId}`);
+        if (!user) {
+            throw new Error('Usuario no encontrado');
+        }
 
-        return updatedUser; // Retorna el usuario actualizado si es necesario
+        // Calcular el nuevo puntaje del usuario
+        const newScore = (user.score || 0) + 1;
+
+        // Actualizar el puntaje del usuario en la base de datos
+        await prisma.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                score: newScore
+            }
+        });
+
+        console.log('Puntaje actualizado correctamente.');
     } catch (error) {
-        console.error('Error al actualizar el juego:', error);
-        throw error; // Propaga el error para manejarlo donde se llame a esta función
+        console.error('Error al actualizar el puntaje del usuario:', error);
+        throw error;
+    } finally {
+        await prisma.$disconnect(); // Cerrar la conexión con Prisma
     }
 };

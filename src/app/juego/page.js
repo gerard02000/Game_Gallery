@@ -13,7 +13,6 @@ const GamePage = async () => {
 
     return (
         <>
-            <h1>🎮 Juego</h1>
             <RockPaperScissors />
         </>
     );
