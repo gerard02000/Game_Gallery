@@ -29,7 +29,7 @@ async function Header() {
                             </div>
                             <div className="flex items-center space-x-4">
                                 {session ? (
-                                    <form><button onClick={logout} className="text-base font-medium text-white">SignOut</button></form>
+                                    <form><button formAction={logout} className="text-base font-medium text-white">SignOut</button></form>
                                 ) : (
                                     <>
                                         <Link href="/auth/register" className="text-white bg-yellow-400 hover:bg-yellow-500 focus:bg-yellow-500 px-3 py-2 rounded-md">

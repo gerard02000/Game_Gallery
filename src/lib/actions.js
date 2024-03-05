@@ -144,43 +144,49 @@ export async function logout() {
 
 
 
-
-
-
-
-
-
-export const updateJuegoWithResult = async (userId, result) => {
+export async function updatePartidaWithResult(userId, result) {
     try {
-        // Buscar al usuario por su ID
-        const user = await prisma.user.findUnique({
-            where: {
-                id: userId
-            }
-        });
-
-        if (!user) {
-            throw new Error('Usuario no encontrado');
+        // Verificamos si el userId está definido
+        if (!userId) {
+            throw new Error('ID de usuario no disponible.');
         }
 
-        // Calcular el nuevo puntaje del usuario
-        const newScore = (user.score || 0) + 1;
-
-        // Actualizar el puntaje del usuario en la base de datos
-        await prisma.user.update({
-            where: {
-                id: userId
-            },
-            data: {
-                score: newScore
-            }
+        // Obtenemos el usuario con la información de la partida
+        const usuario = await prisma.user.findUnique({
+            where: { id: userId },
+            include: { partidas: true } // Incluimos la relación con las partidas
         });
 
-        console.log('Puntaje actualizado correctamente.');
+        // Verificamos si el usuario existe
+        if (!usuario) {
+            throw new Error('No se encontró el usuario en la base de datos');
+        }
+
+        // Verificamos si la partida existe para este usuario
+        if (!usuario.partidas || usuario.partidas.length === 0) {
+            throw new Error('El usuario no tiene partidas asociadas');
+        }
+
+        // Supongamos que estamos actualizando la primera partida encontrada
+        const partidaId = usuario.partidas[0].id;
+
+        // Actualizamos el resultado de la partida según el resultado del juego
+        let dataToUpdate = {};
+
+        if (result === 'victoria') {
+            dataToUpdate.victorias = usuario.partidas[0].victorias + 1;
+        } else if (result === 'derrota') {
+            dataToUpdate.derrotas = usuario.partidas[0].derrotas + 1;
+        } else {
+            dataToUpdate.empates = usuario.partidas[0].empates + 1;
+        }
+
+        await prisma.partida.update({
+            where: { id: partidaId },
+            data: dataToUpdate,
+        });
     } catch (error) {
-        console.error('Error al actualizar el puntaje del usuario:', error);
+        console.error('Error al actualizar la partida:', error);
         throw error;
-    } finally {
-        await prisma.$disconnect(); // Cerrar la conexión con Prisma
     }
-};
+}
